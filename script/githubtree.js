@@ -4,6 +4,7 @@ function GitHubTree($target, $github, $dir) {
     var _tree = $target;
     var _github = $github;
     var _dir = ($dir ? ($dir + '/').replace('//', '/') : '').replace(/\/$/, '');
+    var _highlighter;
 
 
     // Public Methods ____________________________________________________
@@ -11,7 +12,7 @@ function GitHubTree($target, $github, $dir) {
     this.init = function() {
 
         // Open / Close on tree
-        self.addEvents();
+        _self.addEvents();
 
         // Kick off
         _github.query(_dir);
@@ -39,6 +40,27 @@ function GitHubTree($target, $github, $dir) {
         });
     };
 
+    this.bindCodeUpdate = function($code_element, $highlighter) {
+        _highlighter = $highlighter;
+
+        $(_self).bind('file', function($e, $content, $file) {
+            var ext = $file.split('/').pop().split('.').pop(); // extension
+
+            switch (ext) {
+                case 'png':
+                case 'jpg':
+                case 'jpeg':
+                case 'gif':
+                    $code_element.html('<img src="' + _github.getRawUrl({branch: 'master/', dir: (_dir ? _dir + '/' : '') + $file}) + '" />');
+                break;
+
+                default:
+                    $code_element.html($content.split('<').join('&lt;'));
+                    _highlighter && _highlighter();
+            }
+
+        });
+    };
 
     // Private Methods ____________________________________________________
 
