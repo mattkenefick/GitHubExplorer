@@ -1,0 +1,53 @@
+
+/**
+ * File list
+ * ==================================================== */
+
+.file-list li span {
+    padding:                    2px 0 2px 20px;
+    display:                    block;
+    font-family:                Helvetica, Arial, sans-serif;
+    font-size:                  13px;
+    text-decoration:            none;
+    color:                      #333;
+    white-space:                nowrap;
+}
+
+/** Iconography **/
+
+.file-list li.dir {
+    background:                 url('./images/arrow-closed.png') 5px 5px no-repeat;
+}
+
+.file-list li.dir.open {
+    background:                 url('./images/arrow-open.png') 4px 6px no-repeat;
+}
+
+.file-list li.dir > span {
+    background:                 url('./images/folder-closed.png') 0 2px no-repeat;
+}
+
+.file-list li.dir.open > span {
+    background:                 url('./images/folder-open.png') 0 2px no-repeat;
+}
+
+.file-list li.file > span {
+    background:                 url('./images/file-unselected.png') 2px 2px no-repeat;
+}
+
+.file-list li.file.open > span {
+    outline:                    1px dotted #ccc;
+    background-color:           #f9f9f9;
+}
+
+/** Colors **/
+
+.file-list li.file > span.selected {
+    font-weight:                bold;
+}
+
+.file-list > li:hover > span,
+.file-list ul > li:hover > span {
+    color: #75a9ce;
+    cursor: pointer;
+}
