@@ -123,9 +123,7 @@ function GitHub($user, $repo) {
             str = $object.find('span').html() + '/' + str;
         } while($object = $($object).parent().parent());
 
-        str = str.charAt(str.length - 1) == '/' ? str.substring(0, str.length - 1) : str;
-
-        return str;
+        return str.replace(/\/$/, '');
     };
 
     /**
@@ -133,7 +131,7 @@ function GitHub($user, $repo) {
      */
     function _onFileClick($e) {
         var str = _self.buildStructure($(this));
-            str = str.substring(0, str.length-1);
+            str = str.replace(/\/$/, '');
         var url = $(this).data('url');
 
         $(_self).trigger('file', [str]);
