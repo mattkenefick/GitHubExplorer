@@ -34,25 +34,23 @@ function GitHub($user, $repo) {
         }, ':');
 
         $.getJSON(url + '&callback=?', function($data) {
-            var cache;
+            var cache,
+                cached;
 
+           // JSONP sends back {meta, data}, so this will equalize it
             $data = $data.data;
 
             // new repo
-            if (!_cache.repo[_options.repo]) {
-                _cache.repo[_options.repo] = {files: [], dirs: {}};
-            }
+            !_cache.repo[_options.repo] && _cache.repo[_options.repo] = {files: [], dirs: {}};
 
             // set local cache repo var
             cache = _cache.repo[_options.repo];
 
             // check for directories existing
             if (dir_ary) {
-                var cached = cache; // used for traversing
+                cached = cache; // used for traversing
                 $(dir_ary).each(function($index, $item) {
-                    if (!cached.dirs[$item]) {
-                        cached.dirs[$item] = {files: [], dirs: {}};
-                    }
+                    !cached.dirs[$item] && cached.dirs[$item] = {files: [], dirs: {}};
                     cached = cached.dirs[$item];
                 });
             }
@@ -130,15 +128,13 @@ function GitHub($user, $repo) {
      * _onFileClick
      */
     function _onFileClick($e) {
-        var str = _self.buildStructure($(this));
-            str = str.replace(/\/$/, '');
+        var str = _self.buildStructure($(this)).replace(/\/$/, '');
         var url = $(this).data('url');
 
         $(_self).trigger('file', [str]);
 
         $.getJSON(url + '?callback=?', function($data) {
-            $data = $data.data;
-            $(_self).trigger('file_complete', [$data, str]);
+            $(_self).trigger('file_complete', [$data['data'], str]);
         });
     };
 
