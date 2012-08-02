@@ -3,8 +3,7 @@ function GitHubTree($target, $github, $dir) {
     var _self = this;
     var _tree = $target;
     var _github = $github;
-    var _dir = $dir ? ($dir + '/').replace('//', '/') : '';
-        _dir = _dir.replace(/\/$/, '');
+    var _dir = ($dir ? ($dir + '/').replace('//', '/') : '').replace(/\/$/, '');
 
 
     // Public Methods ____________________________________________________
@@ -12,7 +11,7 @@ function GitHubTree($target, $github, $dir) {
     this.init = function() {
 
         // Open / Close on tree
-        this.addEvents();
+        self.addEvents();
 
         // Kick off
         _github.query(_dir);
@@ -21,15 +20,14 @@ function GitHubTree($target, $github, $dir) {
             _github.populate($target, $dir);
         });
 
-        // Load new directories on click
+        // Click events for directory / loaded files
         $(_github).bind('dir', _onDirClick);
-
-        // Load files
         $(_github).bind('file_complete', _onFileClick);
 
     };
 
     this.addEvents = function() {
+        // reset events, then apply live events for all files/dir
         $('body').off('click');
         $('body').on('click', 'li.dir span', function() {
             $(this).parent('li').toggleClass('open');
@@ -48,7 +46,7 @@ function GitHubTree($target, $github, $dir) {
         if ($target.hasClass('loaded')) return;
         $target.addClass('loaded');
 
-        _github.query((_dir ? _dir + '/': '') + $dir);
+        _github.query((_dir ? _dir + '/' : '') + $dir);
 
         $(_github).one('complete', function($e, $dir) {
             _github.populate($target, $dir);
