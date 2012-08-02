@@ -41,7 +41,7 @@ function GitHub($user, $repo) {
             $data = $data.data;
 
             // new repo
-            !_cache.repo[_options.repo] && _cache.repo[_options.repo] = {files: [], dirs: {}};
+            !_cache.repo[_options.repo] && (_cache.repo[_options.repo] = {files: [], dirs: {}});
 
             // set local cache repo var
             cache = _cache.repo[_options.repo];
@@ -50,7 +50,7 @@ function GitHub($user, $repo) {
             if (dir_ary) {
                 cached = cache; // used for traversing
                 $(dir_ary).each(function($index, $item) {
-                    !cached.dirs[$item] && cached.dirs[$item] = {files: [], dirs: {}};
+                    !cached.dirs[$item] && (cached.dirs[$item] = {files: [], dirs: {}});
                     cached = cached.dirs[$item];
                 });
             }
