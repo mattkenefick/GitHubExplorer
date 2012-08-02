@@ -4,7 +4,7 @@ function GitHubTree($target, $github, $dir) {
     var _tree = $target;
     var _github = $github;
     var _dir = $dir ? ($dir + '/').replace('//', '/') : '';
-        _dir = _dir.charAt(_dir.length - 1) == '/' ? _dir.substring(0, _dir.length - 1) : _dir;
+        _dir = _dir.replace(/\/$/, '');
 
 
     // Public Methods ____________________________________________________
